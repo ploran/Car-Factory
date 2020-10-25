@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  car_model: 
+  year: 1
+  wheels: 1
+  chasis: MyString
+  laser: MyString
+  engine: MyString
+  price: 
+  cost_price: 
+  seats: 1
+
+two:
+  car_model: 
+  year: 1
+  wheels: 1
+  chasis: MyString
+  laser: MyString
+  engine: MyString
+  price: 
+  cost_price: 
+  seats: 1
