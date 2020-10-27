@@ -11,12 +11,12 @@ class Assembly < ApplicationRecord
                   'Warehouse',
                   'Store']
   validates :line, presence: true, inclusion: LINE_OPTIONS
-  validates :status, presence: true, inclusion: { in: 0..1 }#0 PENDIENTE #1 FINALIZADO
+  validates :status, presence: true, inclusion: { in: 0..1 }#0 Pending #1 Finalized
 
   def self.input_new_car(car)
     car.save
     car.create_assembly(line: LINE_OPTIONS[0], status: 0)
-    puts "Vehiculo Ingresado a Basic Structure"
+    puts "Car input to Basic Structure"
     car.save!
   end
 
