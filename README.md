@@ -1,3 +1,3 @@
 # README
 
-# Para iniciar la fabrica => CarFactory.start_robots
+# For start robots in Factory => CarFactory.start_robots
