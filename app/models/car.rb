@@ -11,7 +11,7 @@ class Car < ApplicationRecord
 
   def self.cars_by_model
     models = {}
-    #Devuelve la cantidad de autos por modelo
+    #Returns the number of cars per model
     Car.group(:car_model).count.each do |model, quantity|
          models[model.name] = quantity
     end
@@ -30,7 +30,8 @@ class Car < ApplicationRecord
     if car_computer.present?
       car_computer.defects
     else
-      #Se considera que si esta en la Linea 1 no posee aun Computadora
+      #It is considered that if the car on Line 1
+      #you do not have yet a Computer
       CarComputer.find_by_name(chasis).defects
     end
   end

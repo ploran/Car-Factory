@@ -24,7 +24,7 @@ class CarFactory < ActiveRecord::Base
     GuardRobotJob.set(wait: 15.minutes).perform_later()
     BuyerRobotJob.set(wait: 20.minutes).perform_later()
     logger.info "==========================="
-    logger.info "Robots preparados: BuilderRobot, GuardRobot y BuyerRobot"
+    logger.info "Robots prepared: BuilderRobot, GuardRobot and BuyerRobot"
   end
 
   def self.sale_cars(quantity, car_model_id)
@@ -32,9 +32,9 @@ class CarFactory < ActiveRecord::Base
     if cars.size >= quantity
       times = quantity
     else
-      #Informar que no se puede cumplir con el pedido total
-      #de vehiculos, se venderan los disponibles
-      logger.warn "El BuyerRobot solicita #{quantity} pero solo hay #{cars.size} disponible"
+      #Inform that the total order cannot be fulfilled
+      # of vehicles, available ones will be sold
+      logger.warn "The BuyerRobot requests #{quantity} but only #{cars.size} is available"
       times = cars.size
     end
     times.times do |i|
@@ -45,9 +45,9 @@ class CarFactory < ActiveRecord::Base
   def self.generate_order(car_id)
     car = Car.find(car_id)
     SaleOrder.create(car_id: car_id)
-    car.assembly.status = 1 #1 significa vendido en Store
+    car.assembly.status = 1 #1 car sale in Store
     car.assembly.save
-    logger.info "Pedido de Orden generada para el auto #{car_id}"
+    logger.info "Sales order generated for the car #{car_id}"
   end
 
 end
