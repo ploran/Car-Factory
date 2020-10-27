@@ -8,15 +8,15 @@ class GuardRobotJob < ApplicationJob
   end
 
   def update_store()
-    logger.info "Movimiento de vehiculos de Warehouse a la Tienda"
-    assembly_lines = Assembly.lines("Warehouse", 0) #Vehiculos con etapa terminada
+    logger.info "Car´s movements from Warehouse to Store"
+    assembly_lines = Assembly.lines("Warehouse", 0) #Cars with stage completed
     assembly_lines.each { |assembly_line|
       unless assembly_line.car.has_defects?
-        assembly_line.line = Assembly.line(4) #Tienda
+        assembly_line.line = Assembly.line(4) #Store
         assembly_line.status = 0
         assembly_line.save
       end
     }
-    logger.info "Movimiento de vehiculos de Finalizado a la Tienda "
+    logger.info "Car's movements from Warehouse to Store "
   end
 end
