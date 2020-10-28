@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -46,7 +46,7 @@ group :development do
   gem 'capybara', '>= 2.15'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  gem 'slack-ruby-client'
+  gem "slack-notifier"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

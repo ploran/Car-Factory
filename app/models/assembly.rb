@@ -46,7 +46,7 @@ class Assembly < ApplicationRecord
   end
 
   def self.sale_cars(line_name, car_model_id, quantity)
-    lines = Assembly.joins(:car_model).where(line: line_name, status: 0)
+    lines = Assembly.includes(:car).joins(:car_model).where(line: line_name, status: 0)
     lines_for_model = lines.limit(quantity).select {|line|
                                               line.car.car_model_id = car_model_id}
     return lines_for_model.collect { |line| line.car_id}

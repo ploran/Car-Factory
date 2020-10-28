@@ -2,6 +2,7 @@ class Car < ApplicationRecord
   belongs_to :car_computer, optional: true
   belongs_to :car_model
   has_one :assembly
+  delegate  :defects, to: :car_computer, prefix: true, allow_nil: true
 
   validates :car_model, presence: true
 
@@ -36,4 +37,11 @@ class Car < ApplicationRecord
     end
   end
 
+  def prepare_car
+    logger.info "It is checked that the Car N°#{id} has no defects to be sold"
+    defects.each { |defect|
+      defect.destroy
+      logger.info "The defect is repaired => #{defect.description}"
+    }
+  end
 end
