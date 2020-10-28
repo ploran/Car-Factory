@@ -51,4 +51,12 @@ class CarFactory < ActiveRecord::Base
     }
   end
 
+  def self.daily_resume
+    puts "Daily Resume:"
+    puts "-----------------------------"
+    SaleOrder.daily_income
+    puts "-----------------------------"
+    SaleOrder.cars_sold
+  end
+
 end
