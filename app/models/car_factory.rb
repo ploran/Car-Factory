@@ -52,11 +52,15 @@ class CarFactory < ActiveRecord::Base
   end
 
   def self.daily_resume
+    daily_income = SaleOrder.daily_income
+    cars_sold = SaleOrder.cars_sold
     puts "Daily Resume:"
     puts "-----------------------------"
-    SaleOrder.daily_income
+    puts "Daily Income: $#{daily_income.to_s("F")}"
     puts "-----------------------------"
-    SaleOrder.cars_sold
+    puts "Cars Sold: #{cars_sold}"
+    puts "-----------------------------"
+    puts "Average Order Value: $#{(daily_income / cars_sold).to_s("F")}"
   end
 
 end
