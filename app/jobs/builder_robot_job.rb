@@ -92,6 +92,7 @@ class BuilderRobotJob < ApplicationJob
         end
         assembly_line.save
     }
+    assembly_lines.update_all
     logger.info "Car's movements between lines completed"
   end
 

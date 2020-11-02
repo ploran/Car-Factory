@@ -21,8 +21,8 @@ class CarFactory < ActiveRecord::Base
 
   def self.start_robots
     BuilderRobotJob.set(wait: 1.minutes).perform_now()
-    GuardRobotJob.set(wait: 5.minutes).perform_later()
-    BuyerRobotJob.set(wait: 6.minutes).perform_later()
+    GuardRobotJob.set(wait: 30.minutes).perform_later()
+    BuyerRobotJob.set(wait: 35.minutes).perform_later()
     logger.info "==========================="
     logger.info "Robots prepared: BuilderRobot, GuardRobot and BuyerRobot"
   end
