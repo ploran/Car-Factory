@@ -21,13 +21,13 @@ class CarFactory < ActiveRecord::Base
 
   def self.start_robots
     BuilderRobotJob.set(wait: 1.minutes).perform_now()
-    GuardRobotJob.set(wait: 30.minutes).perform_later()
-    BuyerRobotJob.set(wait: 35.minutes).perform_later()
+    GuardRobotJob.set(wait: 5.minutes).perform_later()
+    BuyerRobotJob.set(wait: 6.minutes).perform_later()
     logger.info "==========================="
     logger.info "Robots prepared: BuilderRobot, GuardRobot and BuyerRobot"
   end
 
-  def self.sale_cars(quantity, car_model_id)
+  def self.sale_cars(quantity, car_model_id,order_id=nil)
     car_ids = Assembly.sale_cars("Store", car_model_id, quantity)
     if car_ids.size < quantity
       #Inform that the total order cannot be fulfilled
@@ -38,7 +38,12 @@ class CarFactory < ActiveRecord::Base
       Car.find(car_ids).each { |car| car.prepare_car }
       times = car_ids.size
     end
-      CarFactory.generate_order(car_ids)
+      if car_ids.any? & order_id.present?
+        CarFactory.generate_order(car_ids)
+      elsif order_id.present?
+        puts "Autos encontrados para ese modelo: #{car_ids}"
+        CarFactory.update_order(order_id, car_ids.first)
+      end
   end
 
   def self.generate_order(car_ids)
@@ -61,6 +66,20 @@ class CarFactory < ActiveRecord::Base
     puts "Cars Sold: #{cars_sold}"
     puts "-----------------------------"
     puts "Average Order Value: $#{(daily_income / cars_sold).to_s("F")}"
+  end
+
+  def self.change_car_model(order_id, car_model_id)
+    self.sale_cars(1, car_model_id,order_id)
+  end
+
+  def self.update_order(order_id, car_id)
+    car = Car.find_by_id(car_id)
+    order = SaleOrder.find_by_id(order_id)
+    unless car.nil? & order.nil?
+      order.car = car
+      order.save
+      logger.info "Sales order N° #{order_id} change for the car #{car_id}"
+    end
   end
 
 end

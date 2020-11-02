@@ -4,7 +4,7 @@ class GuardRobotJob < ApplicationJob
   def perform(*args)
     #notify_defects
     update_store
-    self.class.set(wait: 30.minutes).perform_later()
+    self.class.set(wait: 5.minutes).perform_later()
   end
 
   def update_store
