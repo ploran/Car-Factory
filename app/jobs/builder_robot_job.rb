@@ -79,20 +79,14 @@ class BuilderRobotJob < ApplicationJob
 
   def move_cars_finished()
     logger.info "Car's movements between lines"
-    assembly_lines = Assembly.where(status: 1) #Cars with stage completed
-    assembly_lines.each { |assembly_line|
-        if assembly_line.line == Assembly.line(0)
-          logger.info "Car's movements from Line 1 to 2"
-          assembly_line.line = Assembly.line(1)
-          assembly_line.status = 0
-        elsif assembly_line.line == Assembly.line(1)
-          "Car's movements from Line 2 to 3"
-          assembly_line.line = Assembly.line(2)
-          assembly_line.status = 0
-        end
-        assembly_line.save
-    }
-    assembly_lines.update_all
+    Assembly.where(status: 1, line: Assembly.line(0)).update_all(
+        line: Assembly.line(1),
+        status: 0
+    )
+    Assembly.where(status: 1, line: Assembly.line(1)).update_all(
+        line: Assembly.line(1),
+        status: 0
+    )
     logger.info "Car's movements between lines completed"
   end
 
@@ -112,13 +106,11 @@ class BuilderRobotJob < ApplicationJob
   end
 
   def clean_cars_finished()
-    logger.info "Car's movements from Final to Warehouse"
-    assembly_lines = Assembly.lines("Paint & Final Details", 1) #Cars with stage completed
-    assembly_lines.each { |assembly_line|
-      assembly_line.line = Assembly.line(3) #Warehouse
-      assembly_line.status = 0
-      assembly_line.save
-    }
+    #Cars with stage completed
+    Assembly.where(status: 1, line: Assembly.line(2)).update_all(
+        line: Assembly.line(3),#Warehouse
+        status: 0
+    )
     logger.info "Car's movements from Final to Warehouse"
   end
 
